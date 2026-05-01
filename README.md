@@ -2,14 +2,8 @@
 
 > A modern 3D landing page built with React Three Fiber, Next.js, and Tailwind CSS
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/gileb64375-5584s-projects/v0-3-d-landing-page)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/YNPb8q4S2KK)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-black?style=for-the-badge&logo=react)](https://react.dev/)
-
-## Live Demo
-
-**Live URL:** [https://vercel.com/gileb64375-5584s-projects/v0-3-d-landing-page](https://vercel.com/gileb64375-5584s-projects/v0-3-d-landing-page)
 
 ---
 
@@ -87,7 +81,6 @@
 | **Forms** | React Hook Form, Zod |
 | **Icons** | Lucide React |
 | **Animations** | Framer Motion, Tailwind Animate |
-| **Deployment** | Vercel |
 
 ---
 
@@ -99,7 +92,7 @@
 │  React Version:   19.x                                       │
 │  Next.js Version: 15.2.4                                    │
 │  TypeScript:      5.x                                         │
-│  Tailwind CSS:   3.4.17                                       │
+│  Tailwind CSS:    3.4.17                                       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -154,13 +147,6 @@ flowchart TB
         Middleware["Middleware"]
     end
     
-    subgraph External["External Services"]
-        style External fill:#1a1a2e,color:#fff
-        
-        Vercel["Vercel Deployment"]
-        Analytics["@vercel/analytics"]
-    end
-    
     UI --> State
     UI --> Data
     Components --> ThreeJS
@@ -170,8 +156,7 @@ flowchart TB
     Recharts --> Data
     APIRoutes --> Server
     Client --> Server
-    Server --> External
-    API --> Data
+    Server --> API
 end
 ```
 
@@ -263,7 +248,7 @@ npm start
 - **Dark Mode:** Enabled via CSS class
 - **Content Paths:** `app/**`, `components/**`, `pages/**`
 - **Custom Colors:** Full shadcn/ui color palette
-- **Border Radius:**-lg, -md, -sm variants
+- **Border Radius:** -lg, -md, -sm variants
 - **Animations:** Accordion open/close
 
 ### Components Configuration (`components.json`)
@@ -305,19 +290,19 @@ npm start
 3-d-landing-page/
 ├── app/                      # Next.js App Router
 │   ├── globals.css          # Global styles
-│   ├── layout.tsx           # Root layout
-│   └── page.tsx            # Main page
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx          # Main page
 ├── components/             # React components
-│   ├── ui/                 # shadcn/ui components
+│   ├── ui/                # shadcn/ui components
 │   └── ...
 ├── lib/                    # Utility functions
-│   └── utils.ts            # cn() utility
+│   └── utils.ts           # cn() utility
 ├── public/                 # Static assets
-├── package.json           # Dependencies
+├── package.json            # Dependencies
 ├── tsconfig.json          # TypeScript config
 ├── tailwind.config.ts    # Tailwind config
 ├── postcss.config.mjs    # PostCSS config
-├── next.config.mjs        # Next.js config
+├── next.config.mjs       # Next.js config
 └── README.md             # This file
 ```
 
@@ -325,15 +310,11 @@ npm start
 
 ## Deployment
 
-### Deploy to Vercel
-
-The project is configured for seamless deployment on Vercel:
+### Deploy to Vercel (or any hosting provider)
 
 1. Push to GitHub
-2. Import project in Vercel
+2. Import project in your hosting provider
 3. Auto-deploys on changes
-
-**Live URL:** [https://vercel.com/gileb64375-5584s-projects/v0-3-d-landing-page](https://vercel.com/gileb64375-5584s-projects/v0-3-d-landing-page)
 
 ---
 
@@ -345,5 +326,4 @@ MIT License - Feel free to use this project for your own purposes.
 
 ## Support
 
-- Issues: [GitHub Issues](https://github.com/anomalyco/opencode/issues)
 - Docs: [Next.js](https://nextjs.org/) | [React Three Fiber](https://docs.pmnd.rs/) | [Tailwind CSS](https://tailwindcss.com/)
