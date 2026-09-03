@@ -5,6 +5,7 @@ export default function Home() {
       <div className="mesa" id="abertura">
         <div className="palco">
           <div className="livro">
+            <div className="lombada" aria-hidden="true" />
             <div className="pagina-base">
               <div className="pagina-base-conteudo">
                 <svg className="flor" viewBox="0 0 40 40" fill="none" aria-hidden="true">
@@ -71,7 +72,7 @@ export default function Home() {
       {/* ===================== FÓLIOS ===================== */}
       <main className="folios">
         {/* Fólio I */}
-        <section className="folio" id="onde-quando" aria-labelledby="folio-1-titulo">
+        <section className="folio" id="onde-quando" aria-labelledby="folio-1-titulo" data-pagina="I">
           <p className="folio-numero">Fólio I</p>
           <h2 id="folio-1-titulo">Onde e quando estamos</h2>
           <p className="folio-lead">
@@ -134,7 +135,7 @@ export default function Home() {
         </section>
 
         {/* Fólio II */}
-        <section className="folio" id="tabelia" aria-labelledby="folio-2-titulo">
+        <section className="folio" id="tabelia" aria-labelledby="folio-2-titulo" data-pagina="II">
           <p className="folio-numero">Fólio II</p>
           <h2 id="folio-2-titulo">A tabeliã</h2>
           <div className="tabelia">
@@ -163,7 +164,7 @@ export default function Home() {
         </section>
 
         {/* Fólio III */}
-        <section className="folio" id="equipe" aria-labelledby="folio-3-titulo">
+        <section className="folio" id="equipe" aria-labelledby="folio-3-titulo" data-pagina="III">
           <p className="folio-numero">Fólio III</p>
           <h2 id="folio-3-titulo">Nossa equipe</h2>
           <p className="folio-lead">
@@ -197,7 +198,7 @@ export default function Home() {
         </section>
 
         {/* Fólio IV */}
-        <section className="folio" id="servicos" aria-labelledby="folio-4-titulo">
+        <section className="folio" id="servicos" aria-labelledby="folio-4-titulo" data-pagina="IV">
           <p className="folio-numero">Fólio IV</p>
           <h2 id="folio-4-titulo">O que fazemos por aqui</h2>
           <p className="folio-lead">
@@ -352,7 +353,7 @@ export default function Home() {
         </section>
 
         {/* Fólio V */}
-        <section className="folio" id="links" aria-labelledby="folio-5-titulo">
+        <section className="folio" id="links" aria-labelledby="folio-5-titulo" data-pagina="V">
           <p className="folio-numero">Fólio V</p>
           <h2 id="folio-5-titulo">Links úteis</h2>
           <ul className="links-lista">
@@ -398,7 +399,7 @@ export default function Home() {
         </section>
 
         {/* Fólio VI */}
-        <section className="folio" id="contato" aria-labelledby="folio-6-titulo">
+        <section className="folio" id="contato" aria-labelledby="folio-6-titulo" data-pagina="VI">
           <p className="folio-numero">Fólio VI</p>
           <h2 id="folio-6-titulo">Fale com a gente</h2>
           <p className="folio-lead">
