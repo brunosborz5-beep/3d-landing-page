@@ -1,92 +1,1073 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* 3º Tabelionato de Notas e Protesto — Rio do Sul/SC
+   Estilo: livro de cartório sobre uma mesa. Sem frameworks de UI. */
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+:root {
+  --couro: #151210;
+  --couro-claro: #211b16;
+  --dourado: #b9924f;
+  --dourado-claro: #e2c07f;
+  --papel: #f4ecda;
+  --papel-escuro: #e7d9b8;
+  --tinta: #2b2117;
+  --lacre: #7c2430;
+  --selo-verde: #3d6a4a;
+  --serif: var(--font-serif), 'Iowan Old Style', Georgia, serif;
+  --sans: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+/* ======================= MESA + LIVRO (abertura) ======================= */
+
+.mesa {
+  position: relative;
+  height: 230vh;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 38%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%),
+    repeating-linear-gradient(
+      100deg,
+      #6d4527 0px,
+      #6d4527 5px,
+      #5c3a20 5px,
+      #5c3a20 11px,
+      #663f22 11px,
+      #663f22 16px
+    );
+}
+
+.palco {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.livro {
+  position: relative;
+  width: min(84vw, 640px);
+  aspect-ratio: 3 / 4;
+  perspective: 2400px;
+}
+
+.pagina-base {
+  position: absolute;
+  inset: 0;
+  background: var(--papel);
+  border-radius: 2px;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(43, 33, 23, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8%;
+}
+
+.pagina-base::before {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  border: 1px solid rgba(185, 146, 79, 0.55);
+}
+
+.pagina-base-conteudo {
+  text-align: center;
+  font-family: var(--serif);
+  color: var(--tinta);
+}
+
+.pagina-base-conteudo .flor {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 0.75rem;
+  color: var(--dourado);
+}
+
+.pagina-base-conteudo p {
+  margin: 0;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  letter-spacing: 0.08em;
+  font-variant-caps: small-caps;
+  color: #6b5638;
+}
+
+.capa {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform: rotateY(var(--rotate, 0deg));
+  backface-visibility: hidden;
+  will-change: transform;
+  background:
+    radial-gradient(120% 140% at 15% 10%, rgba(255, 255, 255, 0.05), transparent 60%),
+    linear-gradient(155deg, #1d1712 0%, #120e0b 65%, #0c0a08 100%);
+  border-radius: 2px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10%;
+  text-align: center;
+}
+
+.capa::before {
+  content: '';
+  position: absolute;
+  inset: 5%;
+  border: 1px solid var(--dourado);
+  box-shadow: inset 0 0 0 4px rgba(185, 146, 79, 0.12);
+  pointer-events: none;
+}
+
+.capa-titulo-1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 4.4vw, 1.9rem);
+  letter-spacing: 0.045em;
+  color: var(--dourado-claro);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+  margin: 0 0 0.5rem;
+  line-height: 1.25;
+}
+
+.capa-titulo-2 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(0.85rem, 2.6vw, 1.15rem);
+  color: var(--dourado);
+  margin: 0 0 1.6rem;
+  letter-spacing: 0.06em;
+}
+
+.brasao {
+  width: clamp(64px, 16vw, 108px);
+  height: auto;
+  color: var(--dourado);
+}
+
+/* ======================= FÓLIOS (conteúdo normal) ======================= */
+
+.folios {
+  position: relative;
+  background: var(--papel);
+  background-image: radial-gradient(rgba(43, 33, 23, 0.035) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+.folio {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 9vw, 6.5rem) clamp(1.25rem, 6vw, 2rem);
+  position: relative;
+}
+
+.folio + .folio {
+  border-top: 1px solid rgba(185, 146, 79, 0.4);
+}
+
+.folio-numero {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--serif);
+  font-variant-caps: small-caps;
+  letter-spacing: 0.14em;
+  color: var(--dourado);
+  font-size: 1.05rem;
+  margin-bottom: 1.1rem;
+}
+
+.folio-numero::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--dourado), transparent);
+}
+
+.folio h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 3.4vw, 2.35rem);
+  margin: 0.1rem 0 1.2rem;
+  color: var(--tinta);
+}
+
+.folio p {
+  margin: 0 0 1rem;
+  max-width: 62ch;
+}
+
+.folio-lead {
+  font-size: 1.08rem;
+  color: #4a3b28;
+}
+
+/* Fólio I — endereço, horário */
+
+.info-lista {
+  display: grid;
+  gap: 1.4rem;
+  margin: 1.75rem 0 0;
+}
+
+.info-item dt {
+  font-family: var(--serif);
+  font-weight: 600;
+  color: #5c4126;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.3rem;
+}
+
+.info-item dd {
+  margin: 0;
+  color: var(--tinta);
+}
+
+.info-item dd ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+  columns: 2;
+  column-gap: 1.5rem;
+}
+
+.info-item dd li {
+  font-size: 0.92rem;
+  margin-bottom: 0.25rem;
+  break-inside: avoid;
+}
+
+.link-mapa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  color: var(--lacre);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(124, 36, 48, 0.4);
+  font-size: 0.95rem;
+}
+
+.link-mapa:hover {
+  border-bottom-color: var(--lacre);
+}
+
+/* Fólio II — tabeliã */
+
+.tabelia {
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+  margin-top: 1.5rem;
+}
+
+.tabelia-selo {
+  flex-shrink: 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 2px solid var(--dourado);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dourado);
+  background: var(--couro);
+}
+
+.tabelia-selo svg {
+  width: 46px;
+  height: 46px;
+}
+
+.tabelia-texto h3 {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  margin: 0 0 0.35rem;
+}
+
+.tabelia-texto .cargo {
+  display: block;
+  font-style: italic;
+  color: #6b5638;
+  font-size: 0.92rem;
+  margin-bottom: 0.6rem;
+}
+
+/* Fólio III — equipe */
+
+.equipe-destaque {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.6rem 0 2rem;
+}
+
+.equipe-card {
+  border: 1px solid rgba(185, 146, 79, 0.55);
+  padding: 1.25rem 1.4rem;
+  position: relative;
+  background: rgba(185, 146, 79, 0.06);
+}
+
+.equipe-card::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid rgba(185, 146, 79, 0.25);
+  pointer-events: none;
+}
+
+.equipe-card .titulo {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  margin: 0 0 0.2rem;
+}
+
+.equipe-card .funcao {
+  font-size: 0.85rem;
+  color: var(--dourado);
+  font-variant-caps: small-caps;
+  letter-spacing: 0.05em;
+}
+
+.equipe-grid-titulo {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: #6b5638;
+  margin: 0 0 0.9rem;
+  font-style: italic;
+}
+
+.equipe-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.equipe-grid li {
+  border: 1px solid rgba(43, 33, 23, 0.18);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.88rem;
+  color: #4a3b28;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Fólio IV — serviços: cenas animadas */
+
+.servico-bloco {
+  margin: 2.5rem 0 3rem;
+}
+
+.servico-bloco h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  margin: 0 0 0.3rem;
+}
+
+.servico-bloco .frase {
+  color: #55432b;
+  font-style: italic;
+  margin: 0 0 1.4rem;
+  max-width: 56ch;
+}
+
+.cena {
+  position: relative;
+  height: clamp(220px, 42vw, 300px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(185, 146, 79, 0.35);
+  background: linear-gradient(180deg, rgba(185, 146, 79, 0.05), transparent 40%);
+  overflow: hidden;
+}
+
+/* --- Cena 1: reconhecimento de firma --- */
+
+.doc {
+  position: relative;
+  width: 190px;
+  height: 130px;
+  background: #fffdf6;
+  box-shadow: 0 10px 26px rgba(43, 33, 23, 0.25);
+  padding: 16px 18px;
+  z-index: 1;
+}
+
+.doc-linha {
+  height: 2px;
+  background: rgba(43, 33, 23, 0.18);
+  margin-bottom: 12px;
+}
+
+.doc-linha.curta {
+  width: 60%;
+}
+
+.doc-assinatura-area {
+  position: relative;
+  margin-top: 22px;
+  border-top: 1px solid rgba(43, 33, 23, 0.35);
+  height: 30px;
+}
+
+.traco-assinatura {
+  position: absolute;
+  top: -26px;
+  left: 0;
+  width: 160px;
+  height: 30px;
+}
+
+.traco-assinatura path {
+  fill: none;
+  stroke: var(--tinta);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+}
+
+.cena--firma.ativo .traco-assinatura path {
+  animation: tf-desenhar 1.1s ease forwards;
+  animation-delay: 1.5s;
+}
+
+.selo {
+  position: absolute;
+  top: 6%;
+  right: 18%;
+  width: 74px;
+  height: 74px;
+  opacity: 0;
+  transform: translateY(-150px) rotate(-55deg) scale(1.15);
+  z-index: 2;
+  color: var(--lacre);
+}
+
+.selo svg circle {
+  fill: rgba(124, 36, 48, 0.08);
+  stroke: var(--lacre);
+  stroke-width: 3;
+}
+
+.selo svg text {
+  fill: var(--lacre);
+  font-family: var(--serif);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.cena--firma.ativo .selo {
+  animation: tf-selo-cai 0.85s cubic-bezier(0.34, 1.45, 0.64, 1) forwards;
+  animation-delay: 0.15s;
+}
+
+.seta-firma {
+  position: absolute;
+  width: 90px;
+  height: 60px;
+  top: 32%;
+  right: 8%;
+  z-index: 2;
+  color: var(--dourado);
+}
+
+.seta-firma path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 140;
+  stroke-dashoffset: 140;
+}
+
+.cena--firma.ativo .seta-firma path {
+  animation: tf-desenhar 0.6s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes tf-selo-cai {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-10deg) scale(1);
   }
 }
 
-@layer base {
-  :root {
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+@keyframes tf-desenhar {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
-@layer base {
+/* --- Cena 2: apostilamento de Haia --- */
+
+.doc2 {
+  position: relative;
+  width: 170px;
+  height: 120px;
+  background: #fffdf6;
+  box-shadow: 0 10px 26px rgba(43, 33, 23, 0.25);
+  padding: 14px 16px;
+  z-index: 1;
+  transform-origin: center top;
+}
+
+.cena--apostila.ativo .doc2 {
+  animation: ap-dobra 1s ease forwards;
+  animation-delay: 1.2s;
+}
+
+@keyframes ap-dobra {
+  0% {
+    opacity: 1;
+    transform: scaleY(1) rotateX(0deg);
+  }
+  55% {
+    opacity: 1;
+    transform: scaleY(0.08) rotateX(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.02) rotateX(75deg);
+  }
+}
+
+.carimbo-apostila {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  border: 2px solid var(--dourado);
+  color: var(--dourado);
+  font-family: var(--serif);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 6px;
+  transform: rotate(-8deg) scale(1.4);
+  opacity: 0;
+}
+
+.cena--apostila.ativo .carimbo-apostila {
+  animation: ap-carimbo 0.5s ease forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes ap-carimbo {
+  to {
+    opacity: 1;
+    transform: rotate(-8deg) scale(1);
+  }
+}
+
+.aviao-solo {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  color: var(--tinta);
+  opacity: 0;
+  transform: scale(0.4) translateY(14px);
+  z-index: 1;
+}
+
+.cena--apostila.ativo .aviao-solo {
+  animation: ap-aviao 0.7s ease forwards;
+  animation-delay: 1.95s;
+}
+
+@keyframes ap-aviao {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.globo-orbita {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.cena--apostila.ativo .globo-orbita {
+  animation: ap-fade 0.7s ease forwards;
+  animation-delay: 2.5s;
+}
+
+@keyframes ap-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+.globo {
+  width: clamp(70px, 14vw, 96px);
+  height: clamp(70px, 14vw, 96px);
+  color: var(--dourado);
+}
+
+.globo circle,
+.globo ellipse {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.1;
+}
+
+.orbita {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(185, 146, 79, 0.3);
+  animation: ap-girar linear infinite;
+  animation-play-state: paused;
+}
+
+.cena--apostila.ativo .orbita {
+  animation-play-state: running;
+}
+
+.orbita-1 {
+  width: 140px;
+  height: 140px;
+  animation-duration: 7s;
+}
+
+.orbita-2 {
+  width: 195px;
+  height: 195px;
+  animation-duration: 11s;
+  animation-direction: reverse;
+}
+
+.orbita-3 {
+  width: 245px;
+  height: 245px;
+  animation-duration: 15s;
+}
+
+.aviao-mini {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+  color: var(--tinta);
+}
+
+@keyframes ap-girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Cena 3: protesto de títulos --- */
+
+.doc3 {
+  position: relative;
+  width: 190px;
+  height: 130px;
+  background: #fffdf6;
+  box-shadow: 0 10px 26px rgba(43, 33, 23, 0.25);
+  padding: 16px 18px;
+  z-index: 1;
+}
+
+.carimbo {
+  position: absolute;
+  font-family: var(--serif);
+  font-weight: 700;
+  border: 2.5px solid;
+  padding: 5px 9px;
+  letter-spacing: 0.03em;
+  opacity: 0;
+}
+
+.carimbo--protestado {
+  top: 20px;
+  left: 50%;
+  margin-left: -58px;
+  color: var(--lacre);
+  border-color: var(--lacre);
+  font-size: 12px;
+  transform: rotate(-9deg) scale(1.6);
+  z-index: 2;
+}
+
+.cena--protesto.ativo .carimbo--protestado {
+  animation: pr-slam 0.4s cubic-bezier(0.3, 0.9, 0.4, 1) forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes pr-slam {
+  to {
+    opacity: 1;
+    transform: rotate(-9deg) scale(1);
+  }
+}
+
+.risco-carimbo {
+  position: absolute;
+  top: 33px;
+  left: 50%;
+  margin-left: -58px;
+  width: 116px;
+  height: 2px;
+  z-index: 3;
+}
+
+.risco-carimbo svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.risco-carimbo path {
+  fill: none;
+  stroke: var(--tinta);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 130;
+  stroke-dashoffset: 130;
+}
+
+.cena--protesto.ativo .risco-carimbo path {
+  animation: tf-desenhar 0.4s ease forwards;
+  animation-delay: 2.6s;
+}
+
+.cadeado {
+  position: absolute;
+  right: 14%;
+  bottom: 14%;
+  width: 52px;
+  height: 60px;
+  color: var(--tinta);
+  opacity: 0;
+  transform: translateY(10px);
+  z-index: 2;
+}
+
+.cena--protesto.ativo .cadeado {
+  animation: pr-cadeado-in 0.4s ease forwards;
+  animation-delay: 1.15s;
+}
+
+@keyframes pr-cadeado-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cadeado .argola {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.5;
+  transform-origin: 16px 28px;
+}
+
+.cena--protesto.ativo .cadeado .argola {
+  animation: pr-destrava 0.55s ease forwards;
+  animation-delay: 2.15s;
+}
+
+@keyframes pr-destrava {
+  to {
+    transform: translateX(-6px) rotate(-28deg);
+  }
+}
+
+.cadeado .corpo {
+  fill: var(--couro);
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.carimbo--regularizado {
+  bottom: 20%;
+  left: 8%;
+  color: var(--selo-verde);
+  border-color: var(--selo-verde);
+  font-size: 11px;
+  transform: rotate(6deg) scale(1.5);
+  z-index: 2;
+}
+
+.cena--protesto.ativo .carimbo--regularizado {
+  animation: pr-slam 0.4s cubic-bezier(0.3, 0.9, 0.4, 1) forwards;
+  animation-delay: 2.7s;
+}
+
+/* Cards simples (demais serviços) */
+
+.servicos-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.servico-card {
+  border: 1px solid rgba(43, 33, 23, 0.2);
+  padding: 1.4rem 1.5rem;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.servico-card h4 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+}
+
+.servico-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #4a3b28;
+}
+
+/* Fólio V — links */
+
+.links-lista {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+
+.links-lista li + li {
+  border-top: 1px solid rgba(185, 146, 79, 0.3);
+}
+
+.links-lista a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 0.1rem;
+  text-decoration: none;
+  color: var(--tinta);
+  font-size: 0.98rem;
+}
+
+.links-lista a:hover {
+  color: var(--lacre);
+}
+
+.links-lista .marca {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dourado);
+  flex-shrink: 0;
+}
+
+/* Fólio VI — contato */
+
+.contato-bloco {
+  margin-top: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.whatsapp-botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: var(--couro);
+  color: var(--dourado-claro);
+  border: 1px solid var(--dourado);
+  padding: 0.9rem 1.6rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.whatsapp-botao:hover {
+  background: var(--couro-claro);
+}
+
+.whatsapp-botao svg {
+  width: 22px;
+  height: 22px;
+}
+
+.fim {
+  text-align: center;
+  padding: 3rem 1rem 4rem;
+  font-family: var(--serif);
+  font-style: italic;
+  color: #8a744e;
+}
+
+/* ======================= AURORA (assistente) ======================= */
+
+.aurora {
+  position: fixed;
+  right: clamp(0.75rem, 3vw, 1.75rem);
+  bottom: clamp(0.75rem, 3vw, 1.75rem);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+}
+
+.aurora-balao {
+  background: var(--papel);
+  color: var(--tinta);
+  border: 1px solid var(--dourado);
+  padding: 0.5rem 0.9rem;
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  animation: aurora-flutua 3.2s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+.aurora-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid var(--dourado);
+  background: var(--couro);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  color: var(--dourado-claro);
+  animation: aurora-pulso 3.2s ease-in-out infinite;
+}
+
+@keyframes aurora-flutua {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes aurora-pulso {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.35),
+      0 0 0 0 rgba(185, 146, 79, 0.45);
+  }
+  50% {
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.35),
+      0 0 0 8px rgba(185, 146, 79, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  .aurora-balao {
+    display: none;
+  }
+
+  .info-item dd ul {
+    columns: 1;
+  }
+
+  .tabelia {
+    flex-direction: column;
+  }
+
+  .orbita-3 {
+    display: none;
+  }
+}
+
+/* ======================= prefers-reduced-motion ======================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   * {
-    @apply border-border;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  .capa {
+    transform: rotateY(-160deg) !important;
+  }
+
+  .selo,
+  .seta-firma path,
+  .traco-assinatura path,
+  .carimbo-apostila,
+  .aviao-solo,
+  .globo-orbita,
+  .carimbo--protestado,
+  .carimbo--regularizado,
+  .cadeado,
+  .risco-carimbo path {
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .doc2 {
+    display: none !important;
+  }
+
+  .cadeado .argola {
+    transform: translateX(-6px) rotate(-28deg) !important;
+  }
+
+  .orbita {
+    animation-play-state: paused !important;
+  }
+
+  .aurora-balao,
+  .aurora-avatar {
+    animation: none !important;
   }
 }
