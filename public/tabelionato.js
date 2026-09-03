@@ -20,9 +20,10 @@
   }
   var cenaProtesto = document.getElementById('cena-protesto')
   var cenaVoador = document.getElementById('cena-voador')
+  var regua = document.getElementById('regua')
 
-  /* Cada cena recebe uma fatia da altura de .mesa (em vh). A soma precisa
-     bater com a altura de .mesa no CSS (1040vh). */
+  /* Cada cena recebe uma fatia da altura de .mesa (em vh). A soma + a folga
+     de 100vh precisa bater com a altura de .mesa no CSS (1140vh). */
   var CENAS = [
     { id: 'abertura', vh: 230 },
     { id: 'onde-quando', vh: 110 },
@@ -37,13 +38,16 @@
     return v < 0 ? 0 : v > 1 ? 1 : v
   }
 
-  /* A folha fica parada e legível durante a maior parte da sua faixa de
-     rolagem; a virada em si acontece rápido, só no fim. */
-  var INICIO_VIRADA = 0.7
+  /* Curva suave (smoothstep): a virada acelera e desacelera, em vez de
+     girar em velocidade constante — fica mais parecida com o gesto de
+     virar uma página de verdade. Também começa mais cedo, então a
+     virada em si dura mais e não parece um "tranco". */
+  var INICIO_VIRADA = 0.45
 
   function progressoVirada(local) {
     if (local < INICIO_VIRADA) return 0
-    return (local - INICIO_VIRADA) / (1 - INICIO_VIRADA)
+    var t = clamp01((local - INICIO_VIRADA) / (1 - INICIO_VIRADA))
+    return t * t * (3 - 2 * t)
   }
 
   function aplicarProtesto(p) {
@@ -67,6 +71,36 @@
     cenaVoador.classList.toggle('fase-apostila', p > 0.58)
   }
 
+  /* Deslocamento acumulado (em px, no viewport atual) de cada cena —
+     usado tanto pelo motor de rolagem quanto pelos links da régua. */
+  function offsetsDasCenas() {
+    var vh = window.innerHeight
+    var offsets = {}
+    var acumulado = 0
+    for (var i = 0; i < CENAS.length; i++) {
+      var alturaPx = (CENAS[i].vh / 100) * vh
+      offsets[CENAS[i].id] = { inicio: acumulado, altura: alturaPx }
+      acumulado += alturaPx
+    }
+    return offsets
+  }
+
+  /* Cenas com fade de entrada (protesto, voador) precisam de uma folga
+     ao pousar por clique na régua — senão a pessoa cai bem no início,
+     antes do fade terminar, e vê tudo semitransparente. */
+  var FOLGA_POUSO = { protesto: 0.12, voador: 0.13 }
+
+  var cenaAtiva = null
+
+  function marcarAtiva(id) {
+    if (id === cenaAtiva || !regua) return
+    cenaAtiva = id
+    var links = regua.querySelectorAll('a')
+    for (var i = 0; i < links.length; i++) {
+      links[i].classList.toggle('ativo', links[i].getAttribute('data-cena') === id)
+    }
+  }
+
   var ticking = false
 
   function atualizar() {
@@ -75,10 +109,13 @@
     var rolado = -rect.top
 
     var offset = 0
+    var idAtual = 'abertura'
     for (var i = 0; i < CENAS.length; i++) {
       var cena = CENAS[i]
       var alturaPx = (cena.vh / 100) * vh
       var local = clamp01((rolado - offset) / alturaPx)
+
+      if (rolado >= offset) idAtual = cena.id
 
       if (cena.id === 'abertura' && capa) {
         capa.style.setProperty('--rotate', local * -160 + 'deg')
@@ -96,6 +133,8 @@
       offset += alturaPx
     }
 
+    marcarAtiva(rolado >= offset - vh * 0.02 ? 'contato' : idAtual)
+
     ticking = false
   }
 
@@ -109,4 +148,26 @@
   window.addEventListener('scroll', aoRolar, { passive: true })
   window.addEventListener('resize', aoRolar)
   atualizar()
+
+  /* Régua: cada link rola até o início da cena correspondente. */
+  if (regua) {
+    regua.addEventListener('click', function (event) {
+      var link = event.target.closest('a[data-cena]')
+      if (!link) return
+      event.preventDefault()
+      var id = link.getAttribute('data-cena')
+
+      if (id === 'contato') {
+        var contato = document.getElementById('contato')
+        if (contato) contato.scrollIntoView({ behavior: 'smooth' })
+        return
+      }
+
+      var offsets = offsetsDasCenas()
+      if (Object.prototype.hasOwnProperty.call(offsets, id)) {
+        var folga = (FOLGA_POUSO[id] || 0) * offsets[id].altura
+        window.scrollTo({ top: offsets[id].inicio + folga + 2, left: 0, behavior: 'smooth' })
+      }
+    })
+  }
 })()

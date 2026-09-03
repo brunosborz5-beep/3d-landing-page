@@ -4,6 +4,29 @@ export default function Home() {
       {/* ===================== MESA + LIVRO (livro fixo, páginas viram) ===================== */}
       <div className="mesa" id="abertura">
         <div className="palco">
+          <nav className="regua" id="regua" aria-label="Navegação do livro">
+            <a href="#onde-quando" data-cena="onde-quando">
+              Onde e quando
+            </a>
+            <a href="#tabelia" data-cena="tabelia">
+              A tabeliã
+            </a>
+            <a href="#equipe" data-cena="equipe">
+              Equipe
+            </a>
+            <a href="#servicos-simples" data-cena="servicos-simples">
+              Outros atos
+            </a>
+            <a href="#protesto" data-cena="protesto">
+              Protesto
+            </a>
+            <a href="#voador" data-cena="voador">
+              Firma &amp; Apostilamento
+            </a>
+            <a href="#contato" data-cena="contato">
+              Fale com a gente
+            </a>
+          </nav>
           <div className="livro">
             <div className="lombada" aria-hidden="true" />
 
@@ -19,6 +42,50 @@ export default function Home() {
                   <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1.4" />
                 </svg>
                 <p>Rio do Sul — SC</p>
+              </div>
+            </div>
+
+            <div className="pagina-esquerda" aria-hidden="true">
+              <div className="pagina-esquerda-conteudo">
+                <svg className="brasao" viewBox="0 0 100 120" fill="none">
+                  <path
+                    d="M50 8C66 8 80 13 87 20L87 58C87 83 70 102 50 113C30 102 13 83 13 58L13 20C20 13 34 8 50 8Z"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                  />
+                  <circle cx="50" cy="54" r="27" stroke="currentColor" strokeWidth="1" opacity="0.75" />
+                  {[
+                    [50, 32],
+                    [40, 45],
+                    [61, 45],
+                    [34, 60],
+                    [67, 60],
+                    [44, 68],
+                    [57, 68],
+                    [50, 78],
+                  ].map(([cx, cy], i) => (
+                    <path
+                      key={i}
+                      d="M0 -3.4 L1 -1 3.4 -1 1.4 0.5 2.2 3.4 0 1.7 -2.2 3.4 -1.4 0.5 -3.4 -1 -1 -1 Z"
+                      stroke="currentColor"
+                      strokeWidth="0.5"
+                      transform={`translate(${cx} ${cy})`}
+                    />
+                  ))}
+                  <path
+                    d="M9 24c-7 7-10 18-8 31c2 12 8 23 19 32"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    opacity="0.85"
+                  />
+                  <path
+                    d="M91 24c7 7 10 18 8 31c-2 12-8 23-19 32"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    opacity="0.85"
+                  />
+                </svg>
+                <p>3º Tabelionato de Notas e Protesto</p>
               </div>
             </div>
 
