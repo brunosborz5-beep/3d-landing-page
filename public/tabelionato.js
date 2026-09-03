@@ -3,65 +3,110 @@
 
   var reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  /* Abertura do livro: rotaciona a capa conforme o progresso do scroll */
-  var abertura = document.getElementById('abertura')
+  var mesa = document.getElementById('abertura')
+  if (!mesa) return
+
+  if (reduzMovimento) {
+    return
+  }
+
   var capa = document.getElementById('capa')
+  var paginaBase = document.getElementById('pagina-base')
+  var folhas = {
+    'onde-quando': document.getElementById('folha-onde-quando'),
+    tabelia: document.getElementById('folha-tabelia'),
+    equipe: document.getElementById('folha-equipe'),
+    'servicos-simples': document.getElementById('folha-servicos-simples'),
+  }
+  var cenaProtesto = document.getElementById('cena-protesto')
+  var cenaVoador = document.getElementById('cena-voador')
 
-  if (abertura && capa && !reduzMovimento) {
-    var ticking = false
+  /* Cada cena recebe uma fatia da altura de .mesa (em vh). A soma precisa
+     bater com a altura de .mesa no CSS (1040vh). */
+  var CENAS = [
+    { id: 'abertura', vh: 230 },
+    { id: 'onde-quando', vh: 110 },
+    { id: 'tabelia', vh: 100 },
+    { id: 'equipe', vh: 100 },
+    { id: 'servicos-simples', vh: 100 },
+    { id: 'protesto', vh: 170 },
+    { id: 'voador', vh: 230 },
+  ]
 
-    var atualizar = function () {
-      var retangulo = abertura.getBoundingClientRect()
-      var total = abertura.offsetHeight - window.innerHeight
-      var rolado = -retangulo.top
-      var progresso = total > 0 ? rolado / total : 0
-      if (progresso < 0) progresso = 0
-      if (progresso > 1) progresso = 1
-      capa.style.setProperty('--rotate', progresso * -160 + 'deg')
-      ticking = false
-    }
+  function clamp01(v) {
+    return v < 0 ? 0 : v > 1 ? 1 : v
+  }
 
-    var aoRolar = function () {
-      if (!ticking) {
-        window.requestAnimationFrame(atualizar)
-        ticking = true
+  /* A folha fica parada e legível durante a maior parte da sua faixa de
+     rolagem; a virada em si acontece rápido, só no fim. */
+  var INICIO_VIRADA = 0.7
+
+  function progressoVirada(local) {
+    if (local < INICIO_VIRADA) return 0
+    return (local - INICIO_VIRADA) / (1 - INICIO_VIRADA)
+  }
+
+  function aplicarProtesto(p) {
+    if (!cenaProtesto) return
+    var entrada = clamp01(p / 0.08)
+    var saida = p > 0.94 ? clamp01((p - 0.94) / 0.06) : 0
+    cenaProtesto.style.setProperty('--op', String(entrada * (1 - saida)))
+    cenaProtesto.style.setProperty('--slide', String(clamp01((p - 0.06) / 0.5)))
+    cenaProtesto.classList.toggle('fase-protestado', p > 0.6)
+    cenaProtesto.classList.toggle('fase-cadeado', p > 0.74)
+    cenaProtesto.classList.toggle('fase-regularizado', p > 0.88)
+  }
+
+  function aplicarVoador(p) {
+    if (!cenaVoador) return
+    var op = p > 0 ? 1 : 0
+    cenaVoador.style.setProperty('--op', String(op))
+    cenaVoador.style.setProperty('--entrada', String(clamp01(p / 0.1)))
+    cenaVoador.style.setProperty('--voo', String(clamp01((p - 0.85) / 0.15)))
+    cenaVoador.classList.toggle('fase-selo', p > 0.35)
+    cenaVoador.classList.toggle('fase-apostila', p > 0.58)
+  }
+
+  var ticking = false
+
+  function atualizar() {
+    var vh = window.innerHeight
+    var rect = mesa.getBoundingClientRect()
+    var rolado = -rect.top
+
+    var offset = 0
+    for (var i = 0; i < CENAS.length; i++) {
+      var cena = CENAS[i]
+      var alturaPx = (cena.vh / 100) * vh
+      var local = clamp01((rolado - offset) / alturaPx)
+
+      if (cena.id === 'abertura' && capa) {
+        capa.style.setProperty('--rotate', local * -160 + 'deg')
+      } else if (folhas[cena.id]) {
+        folhas[cena.id].style.setProperty('--rotate', progressoVirada(local) * -170 + 'deg')
+        if (cena.id === 'onde-quando' && paginaBase) {
+          paginaBase.style.setProperty('--pb-op', String(1 - clamp01(local / 0.05)))
+        }
+      } else if (cena.id === 'protesto') {
+        aplicarProtesto(local)
+      } else if (cena.id === 'voador') {
+        aplicarVoador(local)
       }
+
+      offset += alturaPx
     }
 
-    window.addEventListener('scroll', aoRolar, { passive: true })
-    window.addEventListener('resize', aoRolar)
-    atualizar()
+    ticking = false
   }
 
-  /* Cenas animadas de serviços: disparam quando entram na tela */
-  var cenas = document.querySelectorAll('.cena')
-
-  if ('IntersectionObserver' in window && cenas.length) {
-    var observador = new IntersectionObserver(
-      function (entradas) {
-        entradas.forEach(function (entrada) {
-          var elemento = entrada.target
-          var tipo = elemento.getAttribute('data-anim')
-
-          if (entrada.isIntersecting) {
-            elemento.classList.add('ativo')
-            if (tipo === 'once') {
-              observador.unobserve(elemento)
-            }
-          } else if (tipo === 'loop') {
-            elemento.classList.remove('ativo')
-          }
-        })
-      },
-      { threshold: 0.4 }
-    )
-
-    cenas.forEach(function (cena) {
-      observador.observe(cena)
-    })
-  } else {
-    cenas.forEach(function (cena) {
-      cena.classList.add('ativo')
-    })
+  function aoRolar() {
+    if (!ticking) {
+      window.requestAnimationFrame(atualizar)
+      ticking = true
+    }
   }
+
+  window.addEventListener('scroll', aoRolar, { passive: true })
+  window.addEventListener('resize', aoRolar)
+  atualizar()
 })()
