@@ -231,8 +231,13 @@ export default function Home() {
                   <svg viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="42" />
                     <path
-                      d="M50 22c8 3 15 4 22 4v22c0 15-10 26-22 33-12-7-22-18-22-33V26c7 0 14-1 22-4Z"
+                      d="M50 16C61 16 71 20 76 25L76 52C76 69 65 82 50 90C35 82 24 69 24 52L24 25C29 20 39 16 50 16Z"
                       strokeLinejoin="round"
+                    />
+                    <circle cx="50" cy="52" r="17" opacity="0.55" />
+                    <path
+                      d="M50 40l1.7 5.1 5.4-0.1-4.3 3.2 1.6 5.2-4.4-3.1-4.4 3.1 1.6-5.2-4.3-3.2 5.4 0.1z"
+                      opacity="0.85"
                     />
                   </svg>
                 </div>
@@ -243,43 +248,53 @@ export default function Home() {
               <h1 className="capa-titulo-1">3º Tabelionato de Notas e Protesto</h1>
               <p className="capa-titulo-2">Rio do Sul — SC</p>
               <svg className="brasao" viewBox="0 0 100 120" fill="none" aria-hidden="true">
+                {/* escudo pentagonal */}
                 <path
-                  d="M50 6c11 5 22 6 32 6v34c0 24-14 42-32 56C32 88 18 70 18 46V12c10 0 21-1 32-6Z"
+                  d="M50 8C66 8 80 13 87 20L87 58C87 83 70 102 50 113C30 102 13 83 13 58L13 20C20 13 34 8 50 8Z"
                   stroke="currentColor"
                   strokeWidth="1.6"
                 />
-                <path
-                  d="M50 18c8 3 15 4 22 4v26c0 17-10 30-22 39-12-9-22-22-22-39V22c7 0 14-1 22-4Z"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  opacity="0.7"
-                />
+                {/* círculo com as estrelas do Cruzeiro do Sul */}
+                <circle cx="50" cy="54" r="27" stroke="currentColor" strokeWidth="1" opacity="0.75" />
                 {[
-                  [50, 34],
-                  [38, 44],
-                  [62, 44],
-                  [42, 60],
-                  [58, 60],
+                  [50, 32],
+                  [40, 45],
+                  [61, 45],
+                  [34, 60],
+                  [67, 60],
+                  [44, 68],
+                  [57, 68],
+                  [50, 78],
                 ].map(([cx, cy], i) => (
                   <path
                     key={i}
-                    d="M0 -4 L1.2 -1.2 4 -1.2 1.6 0.6 2.6 4 0 2 -2.6 4 -1.6 0.6 -4 -1.2 -1.2 -1.2 Z"
+                    d="M0 -3.4 L1 -1 3.4 -1 1.4 0.5 2.2 3.4 0 1.7 -2.2 3.4 -1.4 0.5 -3.4 -1 -1 -1 Z"
                     stroke="currentColor"
-                    strokeWidth="0.6"
+                    strokeWidth="0.5"
                     transform={`translate(${cx} ${cy})`}
                   />
                 ))}
+                {/* grinalda de café e fumo */}
                 <path
-                  d="M4 26c-6 6-9 15-9 26M96 26c6 6 9 15 9 26"
+                  d="M9 24c-7 7-10 18-8 31c2 12 8 23 19 32"
                   stroke="currentColor"
                   strokeWidth="1"
-                  opacity="0.8"
+                  opacity="0.85"
                 />
                 <path
-                  d="M6 22c-5 3-7 9-6 16M94 22c5 3 7 9 6 16"
+                  d="M91 24c7 7 10 18 8 31c-2 12-8 23-19 32"
                   stroke="currentColor"
-                  strokeWidth="0.8"
-                  opacity="0.6"
+                  strokeWidth="1"
+                  opacity="0.85"
+                />
+                <path d="M11 20c-5 4-8 10-7 18" stroke="currentColor" strokeWidth="0.7" opacity="0.6" />
+                <path d="M89 20c5 4 8 10 7 18" stroke="currentColor" strokeWidth="0.7" opacity="0.6" />
+                {/* faixa */}
+                <path
+                  d="M34 110 L50 118 L66 110 L62 119 L50 123 L38 119 Z"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  opacity="0.85"
                 />
               </svg>
             </div>
